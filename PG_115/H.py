@@ -4,6 +4,7 @@ p1=0
 p2=0
 all=nums[0]
 result=0
+now_len=1
 while p2<len(nums) and p1<len(nums):
     #print(all==sum(nums[p1:p2+1]))
     if all<target:
@@ -11,11 +12,13 @@ while p2<len(nums) and p1<len(nums):
         if p2==len(nums):
             break
         all+=nums[p2]
+        now_len+=1
         
     else:
         #all>=target
-        if result==0 or p2-p1+1<result:
-            result=p2-p1+1
+        if result==0 or now_len<result:
+            result=now_len
         all-=nums[p1]
+        now_len-=1
         p1+=1
 print(result)
