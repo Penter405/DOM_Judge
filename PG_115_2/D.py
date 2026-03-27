@@ -18,4 +18,4 @@ class Number:
 
 
         return False
-print(Number.happy(28))
+print(Number.happy(int(input())))
