@@ -31,4 +31,5 @@ while result:
             good_index=index
     result2.append(result[good_index])
     result.pop(good_index)
-print(result2)
+for rs,pe in result2:
+    print(rs,pe)
