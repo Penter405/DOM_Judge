@@ -1,0 +1,7 @@
+#print(dir(int))
+#print(help(int.to_bytes))
+a=235
+#print(("ac12"))
+print(hex(12))
+print(bin(0xc))
+print(int(0xc))
