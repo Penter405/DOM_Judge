@@ -1,56 +1,98 @@
-#include <cstdlib>
-#include <filesystem>
+#include <windows.h>
+#include <urlmon.h>
 #include <iostream>
+#include <string>
 
-namespace fs = std::filesystem;
+#pragma comment(lib, "urlmon.lib")
 
-int main() {
-    std::string repo_url = "https://github.com/Penter405/DOM_Judge.git"; // 改成你的 repo
-    std::string branch = "main";
-    fs::path repoPath = "data_on_github";
+int main()
+{
+    std::cout << "=== Auto ZIP Updater (No Git Required) ===" << std::endl;
 
-    std::cout << "=== Auto Fetch Tool (No Nested Folder Version) ===" << std::endl;
+    // =========================
+    // 🔧 設定區（可修改）
+    // =========================
 
-    // 1. 如果資料夾不存在 → 創建
-    if (!fs::exists(repoPath))
-        fs::create_directory(repoPath);
+    // 📦 GitHub repo ZIP 下載連結（public repo）
+    std::string repoURL = "https://github.com/Penter405/DOM_Judge/archive/refs/heads/main.zip";
 
-    fs::path gitPath = repoPath / ".git";
+    // 📁 下載後的 zip 檔案名稱
+    std::string zipFileName = "repo.zip";
 
-    // 2. 如果是正常 git repo → fetch + reset + clean
-    if (fs::exists(gitPath)) {
-        std::cout << "[INFO] Git repo detected. Fetching and resetting main branch..." << std::endl;
-        std::string cmd = "git -C \"" + repoPath.string() + "\" fetch origin " + branch +
-                          " && git -C \"" + repoPath.string() + "\" reset --hard origin/" + branch +
-                          " && git -C \"" + repoPath.string() + "\" clean -fd";
-        int result = system(cmd.c_str());
-        if (result == 0) {
-            std::cout << "[SUCCESS] Folder synced with main branch!" << std::endl;
-            return 0;
-        } else {
-            std::cout << "[WARNING] Repo may be broken. Will force re-init..." << std::endl;
-        }
+    // 📂 解壓縮暫存資料夾
+    std::string extractFolder = "temp_repo";
+
+    // 📂 最終更新目標資料夾（你的程式資料）
+    std::string targetFolder = "data_on_github";
+
+    // 📁 GitHub 解壓後的資料夾名稱（通常是 repo-name + branch）
+    std::string githubExtractFolderName = "DOM_Judge-main";
+
+    // =========================
+    // 1️⃣ 下載 ZIP
+    // =========================
+    std::cout << "[1/3] 下載 GitHub ZIP..." << std::endl;
+
+    HRESULT downloadResult = URLDownloadToFileA(
+        NULL,
+        repoURL.c_str(),
+        zipFileName.c_str(),
+        0,
+        NULL);
+
+    if (downloadResult != S_OK)
+    {
+        std::cout << "[ERROR] 下載失敗！" << std::endl;
+        return 1;
     }
 
-    // 3. 如果 .git 不存在 或 fetch/reset 失敗 → 清空資料夾內容
-    std::cout << "[INFO] Force-sync: clearing folder and re-initializing git..." << std::endl;
-    for (auto &p : fs::directory_iterator(repoPath))
-        fs::remove_all(p);
+    std::cout << "[OK] 下載完成" << std::endl;
 
-    // 4. 初始化 git 並直接 fetch/reset 到該資料夾（絕對不要 clone）
-    std::string cmd_init =
-        "cd \"" + repoPath.string() + "\" && "
-        "git init && "
-        "git remote add origin " + repo_url + " && "
-        "git fetch origin " + branch + " && "
-        "git reset --hard origin/" + branch + " && "
-        "git clean -fd";
+    // =========================
+    // 2️⃣ 解壓 ZIP
+    // =========================
+    std::cout << "[2/3] 解壓 ZIP..." << std::endl;
 
-    int result = system(cmd_init.c_str());
-    if (result == 0)
-        std::cout << "[SUCCESS] Folder force-synced with GitHub main branch!" << std::endl;
-    else
-        std::cout << "[ERROR] Force-sync failed! Exit code: " << result << std::endl;
+    std::string extractCommand =
+        "powershell -Command \"Expand-Archive -Force " +
+        zipFileName + " " + extractFolder + "\"";
+
+    int extractResult = system(extractCommand.c_str());
+
+    if (extractResult != 0)
+    {
+        std::cout << "[ERROR] 解壓失敗！" << std::endl;
+        return 1;
+    }
+
+    std::cout << "[OK] 解壓完成" << std::endl;
+
+    // =========================
+    // 3️⃣ 複製檔案到目標資料夾
+    // =========================
+    std::cout << "[3/3] 同步檔案..." << std::endl;
+
+    std::string copyCommand =
+        "xcopy /E /Y /I " +
+        extractFolder + "\\" + githubExtractFolderName + "\\* " +
+        targetFolder;
+
+    int copyResult = system(copyCommand.c_str());
+
+    if (copyResult != 0)
+    {
+        std::cout << "[ERROR] 複製失敗！" << std::endl;
+        return 1;
+    }
+
+    std::cout << "[SUCCESS] 更新完成！" << std::endl;
+
+    // =========================
+    // 🧹 清理暫存檔案
+    // =========================
+
+    system(("del " + zipFileName).c_str());           // 刪除 zip 檔
+    system(("rmdir /S /Q " + extractFolder).c_str()); // 刪除解壓資料夾
 
     return 0;
 }
