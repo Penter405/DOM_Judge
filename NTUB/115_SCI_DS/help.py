@@ -1,2 +1,1 @@
-for rs in sorted({}):
-    print("hi")
+print([0]*3)
