@@ -2,10 +2,14 @@ useless=input()
 coin=list(map(int,input().split()))
 result=set()
 goal=int(input())
+ever=set()
 def recursion(my_list,less):
     #print(my_list)
+    if tuple(my_list) in ever:
+        return 0
+    ever.add(tuple(my_list))
     if less==0:
-        result.add(str(tuple(my_list)))
+        result.add(tuple(my_list))
     if less<0:
         return 0
     for rs in range(len(coin)):
@@ -15,5 +19,12 @@ def recursion(my_list,less):
 
 recursion([0]*len(coin),goal)
 for rs in sorted(result):
-    rs=rs.replace(" ","")
-    print(rs)
+    if len(rs)==1:
+        rs=str(rs)
+        rs=rs.replace(" ","")
+        rs=rs.replace(",","")
+        print(rs)
+    else:
+        rs=str(rs)
+        rs=rs.replace(" ","")
+        print(rs)
