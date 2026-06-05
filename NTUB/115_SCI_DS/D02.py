@@ -16,7 +16,9 @@ def init():
             Nodes[buffer[0]].child.append(Nodes[buffer[2+rs]])
 
 def dfs(root,depth):
-    #print(root)
+    if(root.value in result):
+        #print("return 0")
+        return 0
     if(root==None):
         return 0
     if(root not in result):
