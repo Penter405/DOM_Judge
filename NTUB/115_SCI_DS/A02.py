@@ -15,5 +15,5 @@ def recursion(my_list,less):
 
 recursion([0]*len(coin),goal)
 for rs in sorted(result):
-    rs.replace(" ","")
+    rs=rs.replace(" ","")
     print(rs)
