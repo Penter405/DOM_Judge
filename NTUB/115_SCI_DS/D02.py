@@ -28,7 +28,12 @@ def main():
     init()
     dfs(Nodes[sorted(Nodes)[0]],0)
     #print(result)
-    for rs in sorted(result.keys()):
-        print(rs,result[rs])
+    for rs in range(1,len(Nodes)+1):
+        buffer=0
+        if rs in result:
+            buffer=result[rs]
+        else:
+            buffer=-1
+        print(rs,buffer)
 main()
 
