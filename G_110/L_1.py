@@ -10,13 +10,15 @@ def preorder(root):
     global result
     if not root:
         return 0
-    result[-1].append(root.value)
+    result[-1].append(str(root.value))
     preorder(root.left)
     preorder(root.right)
 
 def search_your_parent(exroot,root,me):
-    print("log",exroot,root)
+    global buffer
+    #print("log",exroot,root)
     if root==None:
+        buffer=exroot
         return exroot
     if me>=root.value:
         search_your_parent(root,root.right,me)
@@ -27,7 +29,7 @@ def make_tree():
     global result, buffer
     nodes=list(map(int,input().split(',')))
     root=Tree(nodes[0])
-    print(root)
+    #print(root)
     for rs in nodes[1:]:
         search_your_parent(root,root,rs)#pretend object is pass by object
         bot=buffer
@@ -46,6 +48,6 @@ def main():
         result.append([])
         preorder(root)
     for rs in result:
-        print(','.join(rs))
+        print(' '.join(rs))
 main()
         
