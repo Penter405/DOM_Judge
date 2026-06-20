@@ -25,8 +25,9 @@ def recursion(used,total):
 recursion([0]*len(coin),0)
 for rs in sorted(result):
     #print(len(rs))
+    rs=str(rs)
     if len(rs)==1:
-        rs=str(rs)
         rs=rs.replace(",","")
+    rs=rs.replave(" ","")
     print(rs)
         
