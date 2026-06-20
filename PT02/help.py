@@ -1,1 +1,1 @@
-print(help(str.replace))
+print(dir(str))
