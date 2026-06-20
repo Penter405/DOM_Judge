@@ -28,6 +28,6 @@ for rs in sorted(result):
     rs=str(rs)
     if len(rs)==1:
         rs=rs.replace(",","")
-    rs=rs.replave(" ","")
+    rs=rs.replace(" ","")
     print(rs)
         
