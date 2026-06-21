@@ -29,7 +29,7 @@ def dfs(root):
         return 0
     result.append(str(root))
     walked.add(root)
-    for rs in close[root]:
+    for rs in sorted(close[root]):
         dfs(rs)
 dfs(root)
 print(" ".join(result))
