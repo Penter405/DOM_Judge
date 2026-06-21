@@ -23,7 +23,7 @@ for where in buffer:
         
         else:
             print("{",end="")
-            print(f"{",".join(bot)}",end="")
+            print(",".join(bot),end="")
             print("}")
         
 #siblings 0 = {}
