@@ -45,7 +45,7 @@ def recursion(root,parent,depth):
     else:
         bot="internal node"
     result[root][3]=bot
-    result[root][4]=walk[root]
+    result[root][4]=sorted(walk[root])
     #print(result[root])
     return max_child_depth
 
