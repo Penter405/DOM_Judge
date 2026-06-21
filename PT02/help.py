@@ -1,3 +1,4 @@
-from collections import deque
-print(dir(deque))
-help(deque.popleft)
+s=set()
+s.add(3)
+s.add(6)
+print(s)
