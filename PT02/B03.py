@@ -47,7 +47,7 @@ def recursion(root,parent,depth):
     result[root][3]=bot
     result[root][4]=walk[root]
     #print(result[root])
-    return depth
+    return max_child_depth
 
 recursion(root,-1,0)
 #print(result)
