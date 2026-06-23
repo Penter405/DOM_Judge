@@ -28,7 +28,7 @@ def bfs(root):
         child_long.append(bfs(rs))
     #return your height
     #greatest is not height , its top 2 child height
-    child_long.sort()
+    child_long.sort(reverse=True)
     greatest=max(get_element_in_multiple(0,child_long)+get_element_in_multiple(1,child_long),greatest)
     return get_element_in_multiple(0,child_long)+1
 bfs(root)
