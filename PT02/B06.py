@@ -12,6 +12,14 @@ def get_root(node):
         node=find[node]
 root=get_root(1)
 greatest=0
+
+
+def get_element_in_multiple(element,multiple):
+    if element>=len(multiple):
+        return 0
+    return multiple[element]
+
+
 #from a nodes left count to its right 
 def bfs(root):
     global greatest
@@ -20,10 +28,8 @@ def bfs(root):
         child_long.append(bfs(rs))
     #return your height
     #greatest is not height , its top 2 child height
-    if len(child_long)==0:
-        return 1
     child_long.sort()
-    greatest=max(child_long[0]+child_long[1],greatest)
-    return child_long[0]+1
+    greatest=max(get_element_in_multiple(0,child_long)+get_element_in_multiple(1,child_long),greatest)
+    return get_element_in_multiple(0,child_long)+1
 bfs(root)
 print(greatest)

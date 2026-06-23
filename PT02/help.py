@@ -1,4 +1,6 @@
-s=[]
-s.append(1)
-s.append(2)
+s=list()
+s.sort()
+def bot():
+    s.add(1)
+
 print(s)
