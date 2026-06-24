@@ -62,7 +62,7 @@ result=[]
 while True:
     try:
         preorder_traval, inorder_traval=list(map(str,input().split()))
-    except:
+    except EOFError:
         break
     walk=defaultdict(list)
     inorder_index=dict()
@@ -76,6 +76,9 @@ while True:
         add_element_to_result_with_index(rs,binary_create_tree(root,rs))
 
 for rs in result:
+    bot=0
     for pe in rs:
+        bot+=1
+        if bot==len(rs):
+            print("".join(pe))
         print("".join(pe),end="")
-    print()

@@ -1,1 +1,1 @@
-help(list.sort)
+print("".join([""]))
