@@ -43,17 +43,17 @@ def binary_create_tree(parent:str,node:str,deep=1):
     if parent not in walk:
         walk[parent]=[""]*2
     if inorder_index[node]<inorder_index[parent]:
-        if parent[0]=="":
+        if walk[parent][0]=="":
             walk[parent][0]=node
             return deep
         else:
-            return binary_create_tree(walk[parent][0],deep+1)
+            return binary_create_tree(walk[parent][0],node,deep+1)
     elif inorder_index[node]>inorder_index[parent]:
-        if parent[1]=="":
+        if walk[parent][1]=="":
             walk[parent][1]=node
             return deep
         else:
-            return binary_create_tree(walk[parent][1],deep+1)
+            return binary_create_tree(walk[parent][1],node,deep+1)
     
     
 
