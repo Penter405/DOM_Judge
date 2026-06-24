@@ -40,31 +40,30 @@ def add_element_to_result_with_index(element:str,index:int):
 
 
 def binary_create_tree(parent:str,node:str,deep=1):
-    if len(walk[parent])==0:
-        walk[parent].append(node)
-        return deep
-    elif len(walk[parent])==1:
-        if inorder_index[node]<inorder_index[parent]:
-            return binary_create_tree(walk[parent][0],node,deep+1)
-        else:
-            walk[parent].append(node)
+    if parent not in walk:
+        walk[parent]=[""]*2
+    if inorder_index[node]<inorder_index[parent]:
+        if parent[0]=="":
+            walk[parent][0]=node
             return deep
-    else:
-        #len 2
-        if inorder_index[node]<inorder_index[parent]:
-            return binary_create_tree(walk[parent][0],node,deep+1)
         else:
-            return binary_create_tree(walk[parent][1],node,deep+1)
-
+            return binary_create_tree(walk[parent][0],deep+1)
+    elif inorder_index[node]<inorder_index[parent]:
+        if parent[1]=="":
+            walk[parent][1]=node
+            return deep
+        else:
+            return binary_create_tree(walk[parent][1],deep+1)
     
-from collections import defaultdict
+    
+
 result=[]
 while True:
     try:
         preorder_traval, inorder_traval=list(map(str,input().split()))
     except EOFError:
         break
-    walk=defaultdict(list)
+    walk=dict()
     inorder_index=dict()
     root=preorder_traval[0]
     result.append([root])
