@@ -81,4 +81,5 @@ for rs in result:
         bot+=1
         if bot==len(rs):
             print("".join(pe))
-        print("".join(pe),end="")
+        else:
+            print("".join(pe),end="")
