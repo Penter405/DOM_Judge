@@ -1,4 +1,42 @@
+
+"""
+we can use buit in functions
+bin hex
+int
+"""
+#print(int("A01",16))
+def formal(x):
+    return (4-len(x))*"0"+x
+
+def get_cheak():
+    data=input().split()
+    int16s=[]
+    for rs in range(0,len(data),2):
+        int16s.append((int(data[rs]+data[rs+1],16)))
+        
+    sumed=str(hex(sum(int16s)))[2:]
+    if len(sumed)%4!=0:
+        bot=int(sumed[0:len(sumed)%4],16)
+    else:
+        bot=0
+    for rs in range(len(sumed)%4,len(sumed),4):
+        #print(rs)
+        bot+=(int(sumed[rs:rs+4],16))
+
+    new_bin=[]    
+    for rs in str(bin(bot))[2:]:
+        if rs =="1":
+            new_bin.append("0")
+        else:
+            new_bin.append("1")
+    out=hex(int("".join(new_bin),2))
+    return formal(out[2:])
+
 result=[]
+for _ in range(int(input())):
+    result.append(get_cheak())
+print("\n".join(result))
+
 
     
 """def int16_to_10(x):
@@ -50,9 +88,11 @@ for _ in range(int(input())):
     to_be16=int10_to_2_with_reverse(add_tool)
     result.append(int2_to_16(to_be16)[20:24])
 """
+"""
 for _ in range(int(input())):
     add_tool=0
     buffer=input().replace(" ","")
     
 
 print(result)
+"""
