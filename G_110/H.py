@@ -31,7 +31,7 @@ def get_cheak():
             new_bin.append("1")
     """
     out=(~bot) & 0xffff
-    return (hex(out)[2:])
+    return formal(hex(out)[2:])
 
 result=[]
 for _ in range(int(input())):
