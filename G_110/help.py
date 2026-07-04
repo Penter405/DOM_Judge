@@ -1,9 +1,6 @@
-#print(dir(int))
-#print(help(int.to_bytes))
-a=235
-#print(("ac12"))
-"""print(hex(12))
-print(bin(0xc))
-print(int(0xc))
-"""
-print(hex(23867))
+a=[12]
+for rs in a:
+    while rs%2==0:
+        rs=rs//2
+    print(rs)
+    #12=2 2 3
