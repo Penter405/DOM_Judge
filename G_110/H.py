@@ -22,15 +22,16 @@ def get_cheak():
     for rs in range(len(sumed)%4,len(sumed),4):
         #print(rs)
         bot+=(int(sumed[rs:rs+4],16))
-
-    new_bin=[]    
+    #print(hex(bot))
+    """new_bin=[]    
     for rs in str(bin(bot))[2:]:
         if rs =="1":
             new_bin.append("0")
         else:
             new_bin.append("1")
-    out=hex(int("".join(new_bin),2))
-    return formal(out[2:])
+    """
+    out=(~bot) & 0xffff
+    return (hex(out)[2:])
 
 result=[]
 for _ in range(int(input())):
