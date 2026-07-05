@@ -1,4 +1,16 @@
-dp={}#tuple(num,c) => result
+result=[]
+while True:
+    try:
+        a=int(input())
+        b=int(input())
+        c=int(input())
+        result.append(str(pow(a,b,c)))
+        useless=input()
+    except:
+        break
+print("\n".join(result))
+
+"""dp={}#tuple(num,c) => result
 primes=[]
 #Num **isup mod c== (Num mod c)**isup
 #make ** ==1 only
@@ -45,3 +57,4 @@ while True:
 
 print("\n".join(result))
 
+"""
