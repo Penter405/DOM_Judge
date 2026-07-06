@@ -1,5 +1,6 @@
 from collections import Counter
 def get():
+    useless=int(input())
     s=Counter(input().split())
     bot=dict(s.most_common())
     for rs in bot:
