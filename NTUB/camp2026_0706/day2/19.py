@@ -16,4 +16,5 @@ def marge(a:list,b:list):
         else:
             result.append(b[pointer_b])
             pointer_b+=1
+input()
 print(marge(list(map(int,input.split())),list(map(int,input.split()))))
