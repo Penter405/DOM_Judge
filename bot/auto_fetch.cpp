@@ -1,57 +1,143 @@
 #include <windows.h>
 #include <urlmon.h>
 #include <iostream>
+#include <fstream>
 #include <string>
 
 #pragma comment(lib, "urlmon.lib")
+
+void trim(std::string& s) {
+    size_t start = s.find_first_not_of(" \n\r\t");
+    if (start == std::string::npos) {
+        s.clear();
+        return;
+    }
+    s.erase(0, start);
+    s.erase(s.find_last_not_of(" \n\r\t") + 1);
+}
 
 int main()
 {
     std::cout << "=== Auto ZIP Updater (No Git Required) ===" << std::endl;
 
-    // =========================
-    // 🔧 設定區（可修改）
-    // =========================
+    // ─── Read repo URL from my_repo_url.txt ───
+    std::string repo_url = "";
+    // When the exe is next to the bot folder (moved out), look for bot/my_repo_url.txt
+    // When running from inside bot folder, look for my_repo_url.txt directly
+    std::string url_file;
+    {
+        WIN32_FIND_DATAA fd;
+        HANDLE hFind = FindFirstFileA("bot", &fd);
+        if (hFind != INVALID_HANDLE_VALUE && (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
+            url_file = "bot\\my_repo_url.txt";
+            FindClose(hFind);
+        } else {
+            url_file = "my_repo_url.txt";
+            if (hFind != INVALID_HANDLE_VALUE) FindClose(hFind);
+        }
+    }
 
-    // 📦 GitHub repo ZIP 下載連結（public repo）
-    std::string repoURL = "https://github.com/Penter405/DOM_Judge/archive/refs/heads/main.zip";
+    std::ifstream infile(url_file);
+    if (infile.is_open()) {
+        std::getline(infile, repo_url);
+        infile.close();
+        trim(repo_url);
+    }
 
-    // 📁 下載後的 zip 檔案名稱
+    if (repo_url.empty()) {
+        std::cout << "Please enter your GitHub repository URL: ";
+        std::getline(std::cin, repo_url);
+        trim(repo_url);
+
+        std::ofstream outfile(url_file);
+        if (outfile.is_open()) {
+            outfile << repo_url << std::endl;
+            outfile.close();
+        } else {
+            std::cout << "[WARNING] Could not save URL to " << url_file << std::endl;
+        }
+    }
+
+    if (repo_url.empty()) {
+        std::cout << "[ERROR] No valid URL provided. Exiting..." << std::endl;
+        return 1;
+    }
+
+    // ─── Normalize URL ───
+    // Strip trailing slash
+    if (!repo_url.empty() && repo_url.back() == '/') {
+        repo_url.pop_back();
+    }
+
+    // Extract base repo URL: keep only https://github.com/{user}/{repo}
+    std::string user, repo;
+    {
+        std::string marker = "github.com/";
+        size_t pos = repo_url.find(marker);
+        if (pos != std::string::npos) {
+            size_t path_start = pos + marker.length();
+            size_t first_slash = repo_url.find('/', path_start);
+            if (first_slash != std::string::npos) {
+                user = repo_url.substr(path_start, first_slash - path_start);
+                size_t second_slash = repo_url.find('/', first_slash + 1);
+                if (second_slash != std::string::npos) {
+                    repo = repo_url.substr(first_slash + 1, second_slash - first_slash - 1);
+                    repo_url = repo_url.substr(0, second_slash);
+                } else {
+                    repo = repo_url.substr(first_slash + 1);
+                }
+            }
+        }
+    }
+
+    // Strip .git suffix if present
+    if (repo.length() >= 4 && repo.substr(repo.length() - 4) == ".git") {
+        repo = repo.substr(0, repo.length() - 4);
+    }
+    if (repo_url.length() >= 4 && repo_url.substr(repo_url.length() - 4) == ".git") {
+        repo_url = repo_url.substr(0, repo_url.length() - 4);
+    }
+
+    std::string branch = "main";
+
+    // Build the ZIP download URL:
+    // https://github.com/{user}/{repo}/archive/refs/heads/main.zip
+    std::string zipURL = repo_url + "/archive/refs/heads/" + branch + ".zip";
+
+    // The folder name inside the ZIP that GitHub creates: {repo}-{branch}
+    std::string githubExtractFolderName = repo + "-" + branch;
+
     std::string zipFileName = "repo.zip";
-
-    // 📂 解壓縮暫存資料夾
     std::string extractFolder = "temp_repo";
-
-    // 📂 最終更新目標資料夾（你的程式資料）
     std::string targetFolder = "data_on_github";
 
-    // 📁 GitHub 解壓後的資料夾名稱（通常是 repo-name + branch）
-    std::string githubExtractFolderName = "DOM_Judge-main";
+    std::cout << "[INFO] Using repo: " << repo_url << std::endl;
+    std::cout << "[INFO] ZIP URL:    " << zipURL << std::endl;
 
     // =========================
-    // 1️⃣ 下載 ZIP
+    // 1. Download ZIP
     // =========================
-    std::cout << "[1/3] 下載 GitHub ZIP..." << std::endl;
+    std::cout << "[1/3] Downloading GitHub ZIP..." << std::endl;
 
     HRESULT downloadResult = URLDownloadToFileA(
         NULL,
-        repoURL.c_str(),
+        zipURL.c_str(),
         zipFileName.c_str(),
         0,
         NULL);
 
     if (downloadResult != S_OK)
     {
-        std::cout << "[ERROR] 下載失敗！" << std::endl;
+        std::cout << "[ERROR] Download failed!" << std::endl;
         return 1;
     }
 
-    std::cout << "[OK] 下載完成" << std::endl;
+    std::cout << "[OK] Download complete" << std::endl;
 
     // =========================
-    // 2️⃣ 解壓 ZIP
+    // 2. Extract ZIP
     // =========================
-    std::cout << "[2/3] 解壓 ZIP..." << std::endl;
+    std::cout << "[2/3] Extracting ZIP..." << std::endl;
 
     std::string extractCommand =
         "powershell -Command \"Expand-Archive -Force " +
@@ -61,16 +147,16 @@ int main()
 
     if (extractResult != 0)
     {
-        std::cout << "[ERROR] 解壓失敗！" << std::endl;
+        std::cout << "[ERROR] Extraction failed!" << std::endl;
         return 1;
     }
 
-    std::cout << "[OK] 解壓完成" << std::endl;
+    std::cout << "[OK] Extraction complete" << std::endl;
 
     // =========================
-    // 3️⃣ 複製檔案到目標資料夾
+    // 3. Copy files to target folder
     // =========================
-    std::cout << "[3/3] 同步檔案..." << std::endl;
+    std::cout << "[3/3] Syncing files..." << std::endl;
 
     std::string copyCommand =
         "xcopy /E /Y /I " +
@@ -81,18 +167,18 @@ int main()
 
     if (copyResult != 0)
     {
-        std::cout << "[ERROR] 複製失敗！" << std::endl;
+        std::cout << "[ERROR] Copy failed!" << std::endl;
         return 1;
     }
 
-    std::cout << "[SUCCESS] 更新完成！" << std::endl;
+    std::cout << "[SUCCESS] Update complete!" << std::endl;
 
     // =========================
-    // 🧹 清理暫存檔案
+    // Cleanup temp files
     // =========================
 
-    system(("del " + zipFileName).c_str());           // 刪除 zip 檔
-    system(("rmdir /S /Q " + extractFolder).c_str()); // 刪除解壓資料夾
+    system(("del " + zipFileName).c_str());
+    system(("rmdir /S /Q " + extractFolder).c_str());
 
     return 0;
 }
