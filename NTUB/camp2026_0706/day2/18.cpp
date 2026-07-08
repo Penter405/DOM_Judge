@@ -2,9 +2,9 @@
 #include <vector>
 std::vector<int> way;
 void input_vector(int size){
-    char word;
+    //char word;
     int num;
-    int iter=0;
+    //int iter=0;
     for(int x=0;x<size;++x){
         std::cin>>num;
         way.push_back(num);
