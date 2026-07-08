@@ -10,6 +10,10 @@ def add(x, index):
 last=0
 index=0
 for rs in s:
+    while index<=len(result)-1 and rs in result[index]:
+        index+=1
+    add(rs,index)
+    """
     if last==0:
         add(rs,index)
         
@@ -18,12 +22,12 @@ for rs in s:
         add(rs,index)
     else:
         if rs in result[index]:
-            while index<=len(result)-1 and rs in result[index]:
-                index+=1
+            
         else:
             index=0
         add(rs,index)
     last=rs
+    """
 index=-1
 answer=""
 #print(result)
