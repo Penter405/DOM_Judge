@@ -10,6 +10,7 @@ def add(x, index):
 last=0
 index=0
 for rs in s:
+    index=0
     while index<=len(result)-1 and rs in result[index]:
         index+=1
     add(rs,index)
