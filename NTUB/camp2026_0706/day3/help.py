@@ -1,2 +1,2 @@
-print(dir(set))
-help(sorted)
+print(dir(list))
+help(list.pop)
