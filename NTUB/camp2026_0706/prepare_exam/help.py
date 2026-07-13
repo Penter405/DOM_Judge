@@ -1,2 +1,1 @@
-print(dir(str))
-help(str.zfill)
+print(int("00"))
