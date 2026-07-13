@@ -1,1 +1,3 @@
-print(list(str(11)))
+s=set()
+print(dir(set))
+help(set.remove)
