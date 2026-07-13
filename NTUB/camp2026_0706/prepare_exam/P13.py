@@ -7,10 +7,8 @@ for _ in range(int(input())):
     time.append(s2[1])
     if time[0]=="12":
         time[0]="00"
-    if (time[2]=="AM"):   
-        result.append(s2[0])
-    else:
+    if (time[2]=="PM"):   
         time[0]=(str(int(time[0])+12)).zfill(2)
-        result.append(time[0]+":"+time[1])
+    result.append(time[0]+":"+time[1])
         
 print("\n".join(result))
