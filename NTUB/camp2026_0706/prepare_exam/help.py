@@ -1,3 +1,2 @@
-s=set()
-print(dir(set))
-help(set.remove)
+print(dir(str))
+help(str.zfill)
