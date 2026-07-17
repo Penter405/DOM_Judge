@@ -1,1 +1,2 @@
-print(int("00"))
+import math
+print(math.factorial(3))
