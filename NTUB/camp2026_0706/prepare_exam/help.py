@@ -1,2 +1,1 @@
-import math
-print(math.factorial(3))
+print('0b0000' and '0b0001')
