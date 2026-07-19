@@ -15,7 +15,7 @@ result=[]
 for rs in range(2):
     binned.append([])
     for pe in data[rs].split('.'):
-        binned[-1].append(bin(int(pe))[2:])
+        binned[-1].append(bin(int(pe))[2:].zfill(8))
 for rs in range(4):
     result.append(str(int(do(binned[0][rs],binned[1][rs]).zfill(8),2)))
 print('.'.join(result))
