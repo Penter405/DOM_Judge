@@ -30,6 +30,11 @@ int main(){
     while(true){
         //under 0
         int state=1;
+        /*
+        for(auto& it:guys){
+        cout<<it<<' ';
+        }
+        */
         for(auto& it:guys){
             if(it<0){
                 state=0;
@@ -56,7 +61,13 @@ int main(){
 
 
         //take off with A and take X times C with o(1)
-        if(fake[0]==0 && fake[1]%2==0 && fake[2]%3==0){
+        /*
+        for(auto& it:fake){
+            cout<<it<<"  ";
+        }
+        cout<<'\n';
+        */
+        if(fake[0]==0 && fake[1]%2==0 && fake[2]==3*(fake[1]/2)){
             Anygood=1;
             C=fake[1]/2;
             B=guys[0];
@@ -66,7 +77,7 @@ int main(){
         A+=1;
     }
     /*
-    cout<<A<<' '<<C<<'\n';
+    cout<<A<<' '<<B<<' '<<C<<'\n';
     cout<<A*2+B<<'\n';
     cout<<A+B+C*2<<'\n';
     cout<<B+C*3<<'\n';
