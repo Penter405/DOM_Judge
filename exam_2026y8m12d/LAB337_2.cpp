@@ -25,6 +25,8 @@ int main(){
     }
     array<int,3> fake=format_diff(guys);
     int Anygood=0;
+    
+    int A=0,B=-1111,C=-1111;
     while(true){
         //under 0
         int state=1;
@@ -56,15 +58,19 @@ int main(){
         //take off with A and take X times C with o(1)
         if(fake[0]==0 && fake[1]%2==0 && fake[2]%3==0){
             Anygood=1;
+            C=fake[1]/2;
+            B=guys[0];
             break;
         }
         guys[0]-=2;guys[1]-=1;
-        fake=format_diff(guys);
-        if(fake[0]==0 && fake[1]%2==0 && fake[2]%3==0){
-            Anygood=1;
-            break;
-        }
+        A+=1;
     }
+    /*
+    cout<<A<<' '<<C<<'\n';
+    cout<<A*2+B<<'\n';
+    cout<<A+B+C*2<<'\n';
+    cout<<B+C*3<<'\n';
+    */
     if(Anygood==0){
         cout<<"NO";
     }else{
