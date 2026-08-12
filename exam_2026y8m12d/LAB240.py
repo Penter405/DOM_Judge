@@ -8,5 +8,7 @@ def get(x,cut):
     while(x>0):
         result.append(str(x%cut))
         x//=cut
+    if len(result)==0:
+        return '0'
     return "".join(result[::-1])
 print(get(new,to))
