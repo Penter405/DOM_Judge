@@ -3,7 +3,7 @@ using namespace std;
 int im_correct=0;
 array<int,3> guys;
 set<array<int,3>> ever_different;
-vector<array<int,2>> well;
+//vector<array<int,2>> well;
 array<array<int,6>,3> take={{{2,1,0,1,0},{0,2,3,0,1}}};
 array<int,3> format_diff(array<int,3> me){
     int min=me[0];
@@ -91,7 +91,7 @@ int main(){
         guys[x]=bot;
     }
     recursion(guys,{0,0});
-    if(well.size()>0){
+    if(im_correct==1){
         cout<<"YES";
     }else{
         cout<<"NO";
