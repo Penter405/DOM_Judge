@@ -4,6 +4,9 @@ int im_correct=0;
 array<int,3> guys;
 set<array<int,3>> ever_different;
 //vector<array<int,2>> well;
+/*
+B=nothing
+*/
 array<array<int,6>,3> take={{{2,1,0,1,0},{0,2,3,0,1}}};
 array<int,3> format_diff(array<int,3> me){
     int min=me[0];
@@ -43,6 +46,10 @@ int recursion(array<int,3> me,array<int,2> times){
     if(ever_different.find(fake)!=ever_different.end()){
         return 0;
     }
+    for(auto it :fake){
+        cout<<it<<"  ";
+    }
+    cout<<'\n';
     int local_correct=1;
     for(auto it: fake){
         if(it>0){
@@ -51,7 +58,7 @@ int recursion(array<int,3> me,array<int,2> times){
         }
 
     }
-    if(local_correct){
+    if(local_correct==1){
         im_correct=1;
         return 0;
     }
