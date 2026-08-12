@@ -1,8 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
-array<int,3> guys;
-array<int,3> format_diff(array<int,3> me){
-    int min=me[0];
+array<long long int,3> guys;
+array<long long int,3> format_diff(array<long long int,3> me){
+    long long int min=me[0];
     for(auto& it:me){
         if(it<min){
             min=it;
@@ -15,7 +15,7 @@ array<int,3> format_diff(array<int,3> me){
 }
 int main(){
     for(int x=0;x<3;++x){
-        int bot;
+        long long int bot;
         //cout<<"input:";
         cin>>bot;
         if(x==3){
@@ -23,18 +23,23 @@ int main(){
         }
         guys[x]=bot;
     }
-    array<int,3> fake=format_diff(guys);
-    int Anygood=0;
+    array<long long int,3> fake=format_diff(guys);
+    long long int A=0,B=0,C=0;
+    if(fake[0]>0){
+        guys[0]-=fake[0]/2;
+        guys[1]-=fake[0]/2/2;
+        A+=fake[0]/2;
+    }
+    int Anygood=0;  
     
-    int A=0,B=-1111,C=-1111;
     while(true){
         //under 0
         int state=1;
-        /*
+        //*
         for(auto& it:guys){
-        cout<<it<<' ';
+            cout<<it<<' ';
         }
-        */
+        //*/
         for(auto& it:guys){
             if(it<0){
                 state=0;
@@ -61,12 +66,12 @@ int main(){
 
 
         //take off with A and take X times C with o(1)
-        /*
+        //*
         for(auto& it:fake){
             cout<<it<<"  ";
         }
         cout<<'\n';
-        */
+        //*/
         if(fake[0]==0 && fake[1]%2==0 && fake[2]==3*(fake[1]/2)){
             Anygood=1;
             C=fake[1]/2;
@@ -76,12 +81,12 @@ int main(){
         guys[0]-=2;guys[1]-=1;
         A+=1;
     }
-    /*
+    //*
     cout<<A<<' '<<B<<' '<<C<<'\n';
     cout<<A*2+B<<'\n';
     cout<<A+B+C*2<<'\n';
     cout<<B+C*3<<'\n';
-    */
+    //*/
     if(Anygood==0){
         cout<<"NO";
     }else{
