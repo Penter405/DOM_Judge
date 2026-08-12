@@ -54,13 +54,13 @@ int main(){
 
 
         //take off with A and take X times C with o(1)
-        if(fake[1]%2==0 && fake[2]%3==0){
+        if(fake[0]==0 && fake[1]%2==0 && fake[2]%3==0){
             Anygood=1;
             break;
         }
         guys[0]-=2;guys[1]-=1;
         fake=format_diff(guys);
-        if(fake[1]%2==0 && fake[2]%3==0){
+        if(fake[0]==0 && fake[1]%2==0 && fake[2]%3==0){
             Anygood=1;
             break;
         }
