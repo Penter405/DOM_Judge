@@ -2,7 +2,7 @@
 using namespace std;
 const array<char,3> out={')',']','}'};
 map<char,char> team={{')','('},{'}','{'},{']','['}};
-int find(char x){
+int find_back(char x){
     for(auto& it:out){
         if(x==it){
             return 1;
@@ -16,20 +16,28 @@ int main(){
     getline(cin, sentence);
     //cout<<"done";
     for(auto& it:sentence){
+        //cout<<it<<'\n';
+        /*
+        for(auto& it:stack){
+            cout<<it<<' ';
+        }
+        cout<<'\n';
+        */
         if(stack.empty()){
-            if(find(it)==1){
+            if(find_back(it)==1){
                 cout<<"NO";
             return 0;
             }
             stack.push_back(it);
             continue;
         }
-        if(find(it)==0){
+        if(find_back(it)==0){
             stack.push_back(it);
             continue;
         
         }
         if(team.at(it)==stack.back()){
+            //cout<<"can close";
             stack.pop_back();
             continue;
         }else{
