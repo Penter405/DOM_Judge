@@ -1,3 +1,4 @@
+#give up
 """
 a=m*r  ,m=object=y
 b=r*n  ,n=int=x
@@ -22,7 +23,7 @@ for _ in range(n):
     ab=[]
     ty=0
     tx=0
-    good=0
+    a_or_b=-1
     m,r,r,n=list(map(int,input().split(',')))
     """
     if 9999 in a[ya]:
@@ -31,27 +32,41 @@ for _ in range(n):
     """
     for ya in range(m):
         a.append(list(map(int,input().split())))
+        if 9999 in a[ya]:
+            ty=ya
+            #tx=a[ya].index(9999)
+            a_or_b=1
         
     for yb in range(r):
         b.append(list(map(int,input().split())))
-
+        if 9999 in b[yb]:
+            #ty=yb
+            tx=b[yb].index(9999)
+            a_or_b=2
     
     for yk in range(m):
         ab.append(list(map(int,input().split())))
 
 
     #try to get bot
-    bot=0
+    data=[]
+    bad_index=-1
+    bad_friend=-1
+    good=0
     for rs in range(r):
-        bot+=a[ty][rs]*b[rs][tx]
-
-
-    me=0
-    if a[ty][tx]!=9999:
-        me=a[ty][tx]
-    else:
-        me=b[ty][tx]
-    result=(ab[ty][tx]-bot)//me
+        data.append((a[ty][rs],b[rs][tx]))
+        if 9999 in data[-1]:
+            if data[-1][0]==9999:
+                bad_index=rs
+                bad_friend=data[-1][1]
+            elif data[-1][1]==9999:
+                bad_index=rs
+                bad_friend=data[-1][0]
+        else:
+            good+=a[ty][rs]*b[rs][tx]
+    if bad_friend==0:
+        bad_friend=1
+    result=(ab[ty][tx]-good)//bad_friend
     aaaa.append(str(result))
 
 
