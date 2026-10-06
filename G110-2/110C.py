@@ -1,6 +1,5 @@
-result=[]
-is_plus=1
 while True:
+    is_plus=1
     try:
         data=input().strip()
     except:
@@ -11,7 +10,7 @@ while True:
     for rs in data[1:]:
         buffer+=int(rs)*is_plus
         is_plus*=-1
-    result.append(str(buffer))
+    print(str(buffer))
 
-print("\n".join(result))
+    
 
