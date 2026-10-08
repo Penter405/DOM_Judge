@@ -42,3 +42,12 @@ print("\n".join(result))
 1765
 3
 """
+
+"""
+look at this problem explained, 
+1 b**p %m = (b**(p/2) %m)  *  (b**(p/2) %m)
+2 (a*b) %c = (a%c) * (b%c)
+3 b**p= b**(p/2)  * b**(p/2)   || b  *  (b**(p//2)) * (b**(p//2))
+  3 b**p can separate to 2 part
+  and 2 tell you after separate the mod still work
+"""
