@@ -21,11 +21,11 @@ def translate(data):
     global ever
     res=[]
     for rs in data:
-        if len(rs)>=3:
+        if len(rs)>=k:
             ever=True
-            if len(rs)%3==0:
+            if len(rs)%k==0:
                 continue
-            res.append(rs[0]*(len(rs)%3))
+            res.append(rs[0]*(len(rs)%k))
         else:
             res.append(rs)
     return res
