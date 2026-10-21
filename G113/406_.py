@@ -9,16 +9,17 @@ def get(i):
     poi=abs(i)
     d=str(i).split(".")
     if len(d[1])>=3:
+        bot=str(float(f"{d[0]}.{d[1][:2]}"))
         if int(d[1][2])>=5:
-            bot=str((float(f"{d[0]}.{d[1][:2]}")+0.01))
-        else:
-            bot=str(float(f"{d[0]}.{d[1][:2]}"))
+            if nega:
+                bot=str(float(bot)-0.01)
+            else:
+                bot=str(float(bot)+0.01)
+            
     else:
         bot=str(i)
     if float(bot)==0:
         return "0.00"
-    if nega:
-        return bot
     return bot
 for _ in range(int(input())):
     res.append(get(float(input())))
