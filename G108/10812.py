@@ -1,3 +1,4 @@
+from collections import defaultdict
 """
 now= now get ball
 X -> free next 2
@@ -5,52 +6,39 @@ X -> free next 2
 """
 def get():
     d=input().split()
-
-    res=[0]
-    times=[[0,0] for _ in range(10)]
-    sub=0
+    times=defaultdict(int)
     p1=0
     p2=1
+    res=0
     gamed=0
-    while gamed<10:
-        #print(d[p1],d[p2],p1,p2)
+    while p2<=len(d)-1:
+        if gamed==10:
+            break
         if d[p1]=="X":
-            res.append(10)
-            if gamed+1<10:
-                times[gamed+1][0]+=1
-            if gamed+1<10:
-                times[gamed+1][1]+=1
-            p1+=1
+            times[p1+1]+=1
+            times[p1+2]+=1
+            res+=10
+            p1=p1+1
             p2=p1+1
-            sub+= times[gamed][0]*10
-            if gamed==9:
-                if d[p1]=="X":
-                    sub+=10
-                else:
-                    if d[p2]=="/":
-                        sub+=10
-                    else:
-                        sub+=int(d[p1])+int(d[p2])
         else:
             if d[p2]=="/":
-                res.append(10)
-                if gamed+1<10:
-                    times[gamed+1][0]+=1
+                times[p2+1]+=1
+                res+=10
             else:
-                res.append(int(d[p1])+int(d[p2]))
-            sub+=times[gamed][0]*int(d[p1])
-            
-            if d[p2]=="/":
-                b=10-int(d[p1])
-            else:
-                b=int(d[p2])
-            sub+=times[gamed][1]*int(b)
-            p1=p2+1
+                res+=int(d[p1])+int(d[p2])
+            p1=p1+2
             p2=p1+1
         gamed+=1
 
-    return (sum(res)+sub)
-
+    for rs in range(len(d)):
+        if d[rs]=="X":
+            now=10
+        elif d[rs]=="/":
+            now=10-int(d[rs-1])
+        else:
+            now=int(d[rs])
+        res+=now*times[rs]
+    return res
 res=[]
 for _ in range(int(input())):
     res.append(get())
