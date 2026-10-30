@@ -27,7 +27,7 @@ def solve():
     my_best=[0]*(n+1)
     for _ in range(n):
         a,b=list(map(int,input().split()))
-        point[a]=b
+        point[a].append(b)
     
 
     def get_one_best(guy):
