@@ -30,8 +30,8 @@ for rs in range(2,len(prime)):
         for i in range(len(get)):
             if get[i]==rs:
                 continue
-            while get[i]!=0 and get[i]%rs==0:
-                get[i]//=rs
+            if get[i]!=0 and get[i]%rs==0:
+                get[i]=0
             if get[i]!=0 and get[i] !=1:
                 all_1or0=False
         for i in range(len(friend)):
