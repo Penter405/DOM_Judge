@@ -1,1 +1,2 @@
-print(int("00001",16))
+import time
+help(time)
