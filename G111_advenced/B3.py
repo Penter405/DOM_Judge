@@ -20,12 +20,4 @@ while True:
 
 
 for a,b in res:
-    if a!=int(a):
-        a=str(a).split(".")
-        a[1]=a[1][:3]
-        a="".join(a)
-    if b!=int(b):
-            b=str(b).split(".")
-            b[1]=b[1][:3]
-            b="".join(b)
-    print(a,b)
+    print(f"{a:.3f},{b:.3f}")

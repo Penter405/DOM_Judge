@@ -12,6 +12,9 @@ def dfs(me=""):
     dfs(me+"L")
     dfs(me+"R")
 for edges in d:
+    if len(edges)==edges.count(" "):
+        print("not complete")
+        continue
     res.clear()
     layer=defaultdict(list)
     place=dict()
@@ -37,4 +40,8 @@ for edges in d:
         print(" ".join(res))
 """
 5  4 11  7  2  8  13  4  1
+"""
+"""
+(42,) ()
+()
 """
