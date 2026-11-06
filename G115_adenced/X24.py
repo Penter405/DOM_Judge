@@ -17,6 +17,8 @@ for _ in range(int(input())):
     bnum=hex(bnum)[2:]
     if len(bnum)==5:
         bnum=int(bnum[1:],16)+int(bnum[0],16)
+    else:
+        bnum=int(bnum,16)
     rnum=imnot(bin(bnum)[2:].zfill(16))
     res.append(hex(int(rnum,2))[2:])
 

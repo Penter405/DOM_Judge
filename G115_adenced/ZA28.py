@@ -4,6 +4,7 @@ for _ in range(int(input())):
     d=list(map(int,input().split()))
     d.sort()
     only=[(n-1)%13 for n in d]
+    only.sort()
     color=(d[0]-1)//13
     last=d[0]
     continuous=1
@@ -34,10 +35,10 @@ for _ in range(int(input())):
         continue
     
     continuous=1
-    last=(only[0]-1)%13
-    have_a=(only[0]-1)%13==0
+    last=only[0]
+    have_a=(only[0])%13==0
     for rs in only[1:]:
-        now= (rs-1)%13
+        now= rs
         if now==0:
             have_a=True
         if now-1!=last:
@@ -46,8 +47,7 @@ for _ in range(int(input())):
             continuous+=1
         last=now
         if continuous>=5 or (continuous==4 and last==12 and have_a):
-            res.append("4")
-            continue
+            break
     if continuous>=5 or (continuous==4 and last==12 and have_a):
         res.append("4")
         continue

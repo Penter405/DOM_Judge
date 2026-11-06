@@ -24,7 +24,7 @@ for rs in d:
                 break
             res.append(me)
         continue
-    if len(stack)==0 or level[rs]>=level[stack[-1]]:
+    if len(stack)==0 or level[rs]>level[stack[-1]]:#堆疊中運算子優先順序若not(大於等於)讀入的運算子優先順序，放入堆疊
         stack.append(rs)
     else:
         while True:#堆疊中運算子優先順序若大於等於讀入的運算子優先順序，直接輸出堆疊中的運算子
