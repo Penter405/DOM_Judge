@@ -5,19 +5,31 @@ while True:
     except:
         break
     address=list();appear=dict()
-    bad=[]
     dam=None
     index=-1
     for rs in range(0,8,2):
         index+=1
         if (d[rs],d[rs+1]) in appear:
-            bad=[rs,rs+1]
-            dam=appear[(d[rs],d[rs+1])]
+            dam=(d[rs],d[rs+1])
         address.append( [d[rs],d[rs+1]] )
         appear[(d[rs],d[rs+1])]=index
-    address.pop(dam)
-    res.append(    ( address[0][0] +address[2][0] -address[1][0]  ,  address[0][1] +address[2][1] -address[1][1] )   )
+    appear.pop(dam)
+    appear=list(appear.keys())
+    res.append(    ( appear[0][0] +appear[1][0] -dam[0]  ,  appear[0][1] +appear[1][1] -dam[1] )   )
 
 
 for a,b in res:
-    print(f"{a:.3f},{b:.3f}")
+    a=int((a*1000))/1000
+    b=int((b*1000))/1000
+    print(f"{a:.3f} {b:.3f}")
+"""
+0.000 0.000 0.000 1.000 0.000 1.000 1.000 1.000
+1.000 0.000 3.500 3.500 3.500 3.500 0.000 1.000
+1.866 0.000 3.127 3.543 3.127 3.543 1.412 3.145
+"""
+"""
+0.000 1.000 0.000 0.000 0.000 1.000 1.000 1.000
+0.000 1.000 0.000 0.000 1.000 1.000 0.000 1.000
+0.000 0.000 0.000 1.000 0.000 1.000 1.000 1.000
+0.000 0.000 0.000 1.000 1.000 1.000 0.000 1.000
+"""
