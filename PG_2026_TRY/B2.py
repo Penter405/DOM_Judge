@@ -7,12 +7,18 @@
 12 - 4 4 4 -> 64
 12 - 3 3 3 3 -> 81
 """
+memo={}
 def get(a,b,out=10**9+7):
+    if (a,b) in memo:
+        return memo[(a,b)]
     if b==1:
-        return a%out
-    if b%2==0:
-        return ((get(a,b//2,out)%out)*2)%out
-    return (((get(a,b//2,out))%out)*((get(a,b//2+1,out))%out))%out
+        good=a%out
+    elif b%2==0:
+        good= ((get(a,b//2,out)%out)**2)%out
+    else:
+        good=(((get(a,b//2,out))%out)*((get(a,b//2+1,out))%out))%out
+    memo[(a,b)]=good
+    return good
 
 
 for _ in range(int(input())):
@@ -33,6 +39,5 @@ for _ in range(int(input())):
         if res>(10**9+7):
             res%=(10**9+7)6
     """
-    res*=3**amount
-    res%=(10**9+7)
+    res=(res%(10**9+7)*get(3,amount))%(10**9+7)
     print(res)
