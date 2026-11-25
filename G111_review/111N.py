@@ -1,0 +1,6 @@
+sizeof=int(input())
+d=list(set(list(map(int,input().split()))))
+d.sort()
+d=list(map(str,d))
+print(len(d))
+print(' '.join(d))
